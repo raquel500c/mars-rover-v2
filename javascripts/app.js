@@ -1,147 +1,148 @@
 // Rover Object Goes Here
 // ======================
 var rover = {
-  direction: "N",
+  direction: 'N ⬆',
   x: 0,
   y: 0,
-  travelLog: ["[0, 0]"],
+  travelLog: [
+    [0, 0],
+  ],
 };
 
+var grid = [
+  ['N ⬆', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+  ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+  ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+  ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+  ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+  ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+  ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+  ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+  ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+  ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+];
+//console.log(grid.join('\n') + '\n\n');
+console.table(grid);
 // ======================
+
 function turnLeft(rover) {
   switch (rover.direction) {
-    case 'N':
-      rover.direction = 'W';
+    case 'N ⬆':
+      rover.direction = 'W ⬅';
       break;
-    case 'W':
-      rover.direction = 'S';
+    case 'W ⬅':
+      rover.direction = 'S ⬇';
       break;
-    case 'S':
-      rover.direction = 'E';
+    case 'S ⬇':
+      rover.direction = 'E ➜';
       break;
-    case 'E':
-      rover.direction = 'N';
+    case 'E ➜':
+      rover.direction = 'N ⬆';
       break;
     default:
-
+      rover.direction = 'N ⬆';
   }
-  console.log("turnLeft was called!");
+  console.log("turnLeft was called! => New direction: " + rover.direction);
 }
 
 function turnRight(rover) {
   switch (rover.direction) {
-    case 'N':
-      rover.direction = 'E';
+    case 'N ⬆':
+      rover.direction = 'E ➜';
       break;
-    case 'E':
-      rover.direction = 'S';
+    case 'E ➜':
+      rover.direction = 'S ⬇';
       break;
-    case 'S':
-      rover.direction = 'W';
+    case 'S ⬇':
+      rover.direction = 'W ⬅';
       break;
-    case 'W':
-      rover.direction = 'N';
+    case 'W ⬅':
+      rover.direction = 'N ⬆';
       break;
     default:
-
+      rover.direction = 'N ⬆';
   }
-  console.log("turnRight was called!");
+  console.log("turnRight was called! => New direction: " + rover.direction);
 }
 
 function moveForward(rover) {
-  var displaced = false;
-  console.log("moveForward was called!");
   switch (rover.direction) {
-    case 'N':
-      if (rover.y === 9) {
-        console.log("### Rover not displaced,  NORTH BORDER ###");
-      } else {
-        rover.y += 1;
-        displaced = true;
+    case 'N ⬆':
+      rover.y -= 1;
+      if (rover.y < 0) {
+        rover.y = 9;
       }
       break;
-    case 'S':
-      if (rover.y === 0) {
-        console.log("### Rover not displaced, SOUTH BORDER ###");
-      } else {
-        rover.y -= 1;
-        displaced = true;
+    case 'S ⬇':
+      rover.y += 1;
+      if (rover.y > 9) {
+        rover.y = 0;
       }
       break;
-    case 'E':
-      if (rover.x === 9) {
-        console.log("### Rover not displaced, EAST BORDER ###");
-      } else {
-        rover.x += 1;
-        displaced = true;
+    case 'E ➜':
+      rover.x += 1;
+      if (rover.x > 9) {
+        rover.x = 0;
       }
       break;
-    case 'W':
-      if (rover.x === 0) {
-        console.log("### Rover not displaced, WEST BORDER ###");
-      } else {
-        rover.x -= 1;
-        displaced = true;
+    case 'W ⬅':
+      rover.x -= 1;
+      if (rover.x < 0) {
+        rover.x = 9;
       }
       break;
   }
-  if (displaced) {
-    var newPosition = " [" + rover.x + ", " + rover.y + "]";
-    rover.travelLog.push(newPosition);
-  }
+
+  var newPosition = [rover.x, rover.y];
+  rover.travelLog.push(newPosition);
+  console.log("moveForward was called! => New position: " + newPosition);
 }
 
-function moveBack(rover) {
-  var displaced = false;
-  console.log("moveForward was called!");
+function moveBackward(rover) {
   switch (rover.direction) {
-    case 'S':
-      if (rover.y === 9) {
-        console.log("### Rover not displaced,  NORTH BORDER ###");
+    case 'N ⬆':
+      if (rover.y == 9) {
+        rover.y = 0;
       } else {
         rover.y += 1;
-        displaced = true;
       }
       break;
-    case 'N':
-      if (rover.y === 0) {
-        console.log("### Rover not displaced, SOUTH BORDER ###");
+    case 'S ⬇':
+      if (rover.y == 0) {
+        rover.y = 9;
       } else {
         rover.y -= 1;
-        displaced = true;
       }
       break;
-    case 'W':
-      if (rover.x === 9) {
-        console.log("### Rover not displaced, EAST BORDER ###");
+    case 'W ⬅':
+      if (rover.x == 9) {
+        rover.x = 0;
       } else {
         rover.x += 1;
-        displaced = true;
       }
       break;
-    case 'E':
-      if (rover.x === 0) {
-        console.log("### Rover not displaced, WEST BORDER ###");
+    case 'E ➜':
+      if (rover.x == 0) {
+        rover.x = 9;
       } else {
         rover.x -= 1;
-        displaced = true;
       }
       break;
   }
-  if (displaced) {
-    var newPosition = " [" + rover.x + ", " + rover.y + "]";
-    rover.travelLog.push(newPosition);
-  }
+  var newPosition = [rover.x, rover.y];
+  rover.travelLog.push(newPosition);
+  console.log("moveBackward was called! => New position: " + newPosition);
 }
 
-function moveRover(str) {
-  for (i = 0; i < str.length; i++) {
-    switch (str[i]) {
+
+function moveRover(commands) {
+  for (i = 0; i < commands.length; i++) {
+    switch (commands[i]) {
       case 'f':
         moveForward(rover);
         break;
       case 'b':
-        moveBack(rover);
+        moveBackward(rover);
         break;
       case 'l':
         turnLeft(rover);
@@ -156,4 +157,11 @@ function moveRover(str) {
   console.log("Rover Travel => " + rover.travelLog);
   console.log("Current Rover Direction: " + rover.direction);
   console.log("Current Rover Position: " + "[" + rover.x + ", " + rover.y + "]");
+  for (i = 0; i < 10; i++) {
+    for (j = 0; j < 10; j++) {
+      grid[i][j] = ' _ ';
+    }
+  }
+  grid[rover.x][rover.y] = rover.direction;
+  console.table(grid);
 }
