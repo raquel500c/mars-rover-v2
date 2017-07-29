@@ -21,8 +21,11 @@ var grid = [
   ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
   ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
 ];
-//console.log(grid.join('\n') + '\n\n');
+
+console.log('   ************************ MARS ROVER *************************');
 console.table(grid);
+
+
 // ======================
 
 function turnLeft(rover) {
@@ -92,8 +95,7 @@ function moveForward(rover) {
       }
       break;
   }
-
-  var newPosition = [rover.x, rover.y];
+  var newPosition = [rover.y, rover.x];
   rover.travelLog.push(newPosition);
   console.log("moveForward was called! => New position: " + newPosition);
 }
@@ -129,11 +131,10 @@ function moveBackward(rover) {
       }
       break;
   }
-  var newPosition = [rover.x, rover.y];
+  var newPosition = [rover.y, rover.x];
   rover.travelLog.push(newPosition);
   console.log("moveBackward was called! => New position: " + newPosition);
 }
-
 
 function moveRover(commands) {
   for (i = 0; i < commands.length; i++) {
@@ -151,17 +152,21 @@ function moveRover(commands) {
         turnRight(rover);
         break;
       default:
-        console.log('"' + str[i] + '"' + ' no es una orden válida');
+        console.log('Opps!..."' + commands[i] + '"' + ' is not a valid command');
     }
   }
-  console.log("Rover Travel => " + rover.travelLog);
+  console.log('Rover Travel: ' + rover.travelLog.join(' | '));
   console.log("Current Rover Direction: " + rover.direction);
-  console.log("Current Rover Position: " + "[" + rover.x + ", " + rover.y + "]");
+  console.log("Current Rover Position: " + rover.y + ", " + rover.x);
+  updateGrid();
+}
+
+function updateGrid() {
   for (i = 0; i < 10; i++) {
     for (j = 0; j < 10; j++) {
-      grid[i][j] = ' _ ';
+      grid[i][j] = '   ';
     }
   }
-  grid[rover.x][rover.y] = rover.direction;
+  grid[rover.y][rover.x] = rover.direction;
   console.table(grid);
 }
